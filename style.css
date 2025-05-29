@@ -1,0 +1,163 @@
+/* Reset e estilos básicos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Cabeçalho */
+header {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    color: white;
+    text-align: center;
+    padding: 2rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+header p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Navegação */
+nav {
+    background-color: #2E7D32;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+nav li {
+    margin: 0 1.5rem;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #C8E6C9;
+}
+
+/* Conteúdo principal */
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+section {
+    background-color: white;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #2E7D32;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #C8E6C9;
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    color: #4CAF50;
+    margin: 1.5rem 0 1rem;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+/* Ciclo de alimentação - Container das etapas */
+.ciclo-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 2rem 0;
+}
+
+.etapa {
+    width: 200px;
+    text-align: center;
+    margin: 1rem;
+    position: relative;
+}
+
+.etapa img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #C8E6C9;
+    margin-bottom: 1rem;
+    transition: transform 0.3s;
+}
+
+.etapa:hover img {
+    transform: scale(1.05);
+}
+
+.etapa h4 {
+    color: #2E7D32;
+    margin-bottom: 0.5rem;
+}
+
+/* Rodapé */
+footer {
+    background-color: #1B5E20;
+    color: white;
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 2rem;
+}
+
+footer p {
+    margin-bottom: 0.5rem;
+}
+
+/* Responsividade - Adaptação para dispositivos móveis */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav li {
+        margin: 0.5rem 0;
+    }
+    
+    .ciclo-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .etapa {
+        margin: 1rem 0;
+    }
+}

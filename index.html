@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciclo da Alimentação</title>
+    <style>
+        /* Reset e estilos gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Estilos do ciclo */
+        .ciclo {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 3rem 0;
+        }
+        
+        .etapa {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 22%;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .etapa:hover {
+            transform: translateY(-10px);
+        }
+        
+        .etapa-imagem {
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .etapa-conteudo {
+            padding: 1.5rem;
+        }
+        
+        .etapa h3 {
+            color: #4CAF50;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .etapa p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 900px) {
+            .etapa {
+                width: 45%;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .etapa {
+                width: 90%;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Rodapé */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+        
+        .destaque {
+            background-color: #E8F5E9;
+            padding: 3rem 0;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .destaque h2 {
+            color: #2E7D32;
+            margin-bottom: 1rem;
+        }
+
+        /* Estilos do Jogo */
+        .jogo-container {
+            text-align: center;
+            margin: 3rem 0;
+            padding: 2rem;
+            background-color: #E8F5E9;
+            border-radius: 10px;
+        }
+
+        .jogo-titulo {
+            color: #2E7D32;
+            margin-bottom: 1.5rem;
+        }
+
+        .jogo-descricao {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        #game {
+            width: 600px;
+            height: 200px;
+            border: 2px solid #4CAF50;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            background-color: #f9f9f9;
+        }
+
+        #fazendeiro {
+            width: 50px;
+            height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%234CAF50"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>');
+            background-size: contain;
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+        }
+
+        .alimento {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        #score {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            color: #2E7D32;
+            font-weight: bold;
+        }
+
+        .controles {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+
+        .game-over button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .game-over button:hover {
+            background-color: #45a049;
+        }
+
+        @media (max-width: 650px) {
+            #game {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Ciclo da Alimentação</h1>
+            <p>Da plantação ao consumo: conheça a jornada dos seus alimentos</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="destaque">
+            <h2>Entenda como os alimentos chegam à sua mesa</h2>
+            <p>O ciclo alimentar envolve várias etapas importantes que garantem alimentos frescos e nutritivos para todos.</p>
+        </section>
+        
+        <section class="ciclo">
+            <div class="etapa">
+                <div class="etapa-imagem" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                <div class="etapa-conteudo">
+                    <h3>Plantação</h3>
+                    <p>Tudo começa com o plantio das sementes ou mudas. Agricultores preparam o solo, plantam e cuidam das culturas, garantindo condições ideais de crescimento.</p>
+                </div>
+            </div>
+            
+            <div class="etapa">
+                <div class="etapa-imagem" style="background-image: url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                <div class="etapa-conteudo">
+                    <h3>Cultivo</h3>
+                    <p>Durante o crescimento, as plantas precisam de cuidados como irrigação, adubação e proteção contra pragas e doenças para se desenvolverem adequadamente.</p>
+                </div>
+            </div>
+            
+            <div class="etapa">
+                <div class="etapa-imagem" style="background-image: url('https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                <div class="etapa-conteudo">
+                    <h3>Colheita</h3>
+                    <p>Quando os alimentos atingem o ponto ideal de maturação, são colhidos manualmente ou com máquinas, dependendo do tipo de cultura e escala de produção.</p>
+                </div>
+            </div>
+            
+            <div class="etapa">
+                <div class="etapa-imagem" style="background-image: url('https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                <div class="etapa-conteudo">
+                    <h3>Processamento</h3>
+                    <p>Muitos alimentos passam por limpeza, seleção, embalagem ou processamento industrial para aumentar sua durabilidade e facilitar o transporte.</p>
+                </div>
+            </div>
+            
+            <div class="etapa">
+                <div class="etapa-imagem" style="background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                <div class="etapa-conteudo">
+                    <h3>Distribuição</h3>
+                    <p>Os alimentos são transportados para centros de distribuição e depois para mercados, feiras e outros pontos de venda, mantendo a cadeia de frio quando necessário.</p>
+                </div>
+            </div>
+            
+            <div class="etapa">
+                <div class="etapa-imagem" style="background-image: url('https://images.unsplash.com/photo-1426869884541-df7117556757?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                <div class="etapa-conteudo">
+                    <h3>Comercialização</h3>
+                    <p>Nos mercados, os alimentos são organizados, armazenados adequadamente e disponibilizados para os consumidores, com informações sobre origem e qualidade.</p>
+                </div>
+            </div>
+            
+            <div class="etapa">
+                <div class="etapa-imagem" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                <div class="etapa-conteudo">
+                    <h3>Preparação</h3>
+                    <p>Em casa ou em restaurantes, os alimentos são limpos, preparados e cozidos seguindo receitas e técnicas culinárias para realçar seu sabor e valor nutricional.</p>
+                </div>
+            </div>
+            
+            <div class="etapa">
+                <div class="etapa-imagem" style="background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');"></div>
+                <div class="etapa-conteudo">
+                    <h3>Consumo</h3>
+                    <p>A etapa final, quando os alimentos são consumidos, fornecendo nutrientes essenciais para nossa saúde e bem-estar, completando o ciclo alimentar.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção do Jogo -->
+        <section class="jogo-container">
+            <h2 class="jogo-titulo">Jogo: Entrega de Alimentos</h2>
+            <p class="jogo-descricao">Ajude o fazendeiro a coletar os alimentos frescos! Pule para evitar os alimentos estragados e colete os saudáveis.</p>
+            
+            <div id="game">
+                <div id="fazendeiro"></div>
+                <div class="game-over">
+                    <h3>Game Over!</h3>
+                    <p>Sua pontuação: <span id="final-score">0</span></p>
+                    <button onclick="resetGame()">Jogar Novamente</button>
+                </div>
+            </div>
+            
+            <div id="score">Pontuação: 0</div>
+            <div class="controles">Pressione ESPAÇO ou clique na tela para pular</div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Ciclo da Alimentação | Consuma com consciência e valorize cada etapa do processo</p>
+        </div>
+    </footer>
+
+    <script>
+        // Variáveis do jogo
+        const fazendeiro = document.getElementById('fazendeiro');
+        const game = document.getElementById('game');
+        const scoreDisplay = document.getElementById('score');
+        const gameOverDisplay = document.querySelector('.game-over');
+        const finalScoreDisplay = document.getElementById('final-score');
+        
+        let isJumping = false;
+        let isGameOver = false;
+        let score = 0;
+        let alimentos = [];
+        let alimentosSaudaveis = [
+            '🍎', '🍌', '🥕', '🍅', '🥦', '🍓', '🌽', '🍆', '🥬', '🍊'
+        ];
+        let alimentosEstragados = [
+            '🤢', '🤮', '🍄', '☠️', '💀'
+        ];
+        
+        // Função para pular
+        function jump() {
+            if (isJumping || isGameOver) return;
+            
+            isJumping = true;
+            let jumpCount = 0;
+            let jumpUp = setInterval(() => {
+                // Subir
+                let bottom = parseInt(window.getComputedStyle(fazendeiro).getPropertyValue('bottom'));
+                if (bottom >= 150) {
+                    clearInterval(jumpUp);
+                    
+                    // Descer
+                    let jumpDown = setInterval(() => {
+                        if (bottom <= 20) {
+                            clearInterval(jumpDown);
+                            isJumping = false;
+                            fazendeiro.style.bottom = '0px';
+                        } else {
+                            bottom -= 5;
+                            fazendeiro.style.bottom = bottom + 'px';
+                        }
+                    }, 20);
+                } else {
+                    jumpCount += 5;
+                    bottom += 30;
+                    fazendeiro.style.bottom = bottom + 'px';
+                }
+            }, 20);
+        }
+        
+        // Criar alimentos
+        function createAlimento() {
+            if (isGameOver) return;
+            
+            const alimento = document.createElement('div');
+            alimento.classList.add('alimento');
+            
+            // Decidir se é saudável (80% chance) ou estragado (20% chance)
+            const isSaudavel = Math.random() < 0.8;
+            const emojis = isSaudavel ? alimentosSaudaveis : alimentosEstragados;
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            alimento.textContent = randomEmoji;
+            alimento.style.fontSize = '30px';
+            alimento.style.textAlign = 'center';
+            alimento.style.lineHeight = '30px';
+            
+            // Posição inicial à direita
+            alimento.style.right = '0px';
+            
+            // Velocidade aleatória
+            const speed = Math.random() * 3 + 2;
+            
+            // Adicionar ao jogo
+            game.appendChild(alimento);
+            alimentos.push({
+                element: alimento,
+                isSaudavel,
+                speed
+            });
+            
+            // Criar próximo alimento após um intervalo aleatório
+            setTimeout(createAlimento, Math.random() * 2000 + 1000);
+        }
+        
+        // Atualizar posição dos alimentos
+        function updateAlimentos() {
+            if (isGameOver) return;
+            
+            const fazendeiroRect = fazendeiro.getBoundingClientRect();
+            
+            for (let i = 0; i < alimentos.length; i++) {
+                const alimento = alimentos[i];
+                const alimentoRect = alimento.element.getBoundingClientRect();
+                
+                // Mover alimento para a esquerda
+                const currentRight = parseInt(alimento.element.style.right);
+                alimento.element.style.right = (currentRight + alimento.speed) + 'px';
+                
+                // Verificar colisão com o fazendeiro
+                if (
+                    alimentoRect.left < fazendeiroRect.right &&
+                    alimentoRect.right > fazendeiroRect.left &&
+                    alimentoRect.top < fazendeiroRect.bottom &&
+                    alimentoRect.bottom > fazendeiroRect.top
+                ) {
+                    // Colisão detectada
+                    if (alimento.isSaudavel) {
+                        // Alimento saudável - pontuar
+                        score += 10;
+                        scoreDisplay.textContent = 'Pontuação: ' + score;
+                    } else {
+                        // Alimento estragado - game over
+                        endGame();
+                        return;
+                    }
+                    
+                    // Remover alimento
+                    alimento.element.remove();
+                    alimentos.splice(i, 1);
+                    i--;
+                    continue;
+                }
+                
+                // Remover alimento se sair da tela
+                if (currentRight > game.offsetWidth + 50) {
+                    alimento.element.remove();
+                    alimentos.splice(i, 1);
+                    i--;
+                }
+            }
+            
+            requestAnimationFrame(updateAlimentos);
+        }
+        
+        // Finalizar jogo
+        function endGame() {
+            isGameOver = true;
+            finalScoreDisplay.textContent = score;
+            gameOverDisplay.style.display = 'block';
+            
+            // Parar todos os alimentos
+            alimentos.forEach(alimento => {
+                alimento.element.style.animationPlayState = 'paused';
+            });
+        }
+        
+        // Reiniciar jogo
+        function resetGame() {
+            // Limpar alimentos
+            alimentos.forEach(alimento => {
+                alimento.element.remove();
+            });
+            alimentos = [];
+            
+            // Resetar variáveis
+            isGameOver = false;
+            score = 0;
+            scoreDisplay.textContent = 'Pontuação: 0';
+            gameOverDisplay.style.display = 'none';
+            
+            // Começar novamente
+            updateAlimentos();
+            createAlimento();
+        }
+        
+        // Event listeners
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                jump();
+            }
+        });
+        
+        game.addEventListener('click', jump);
+        
+        // Iniciar jogo
+        updateAlimentos();
+        createAlimento();
+    </script>
+</body>
+</html>
